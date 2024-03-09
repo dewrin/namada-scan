@@ -1,0 +1,441 @@
+@import './element-variables.scss';
+@import './variables.scss';
+@import './mixin.scss';
+@import './sidebar.scss';
+
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: pingfang SC, helvetica neue, arial, hiragino sans gb, microsoft yahei ui, microsoft yahei, simsun, sans-serif;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+  background: $app-color;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+  background: $app-color;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+
+//自定义滚动条
+*::-webkit-scrollbar,
+*::-webkit-scrollbar-track,
+*::-webkit-scrollbar-thumb {
+  visibility: hidden;
+}
+
+*:hover::-webkit-scrollbar,
+*:hover::-webkit-scrollbar-track,
+*:hover::-webkit-scrollbar-thumb {
+  visibility: visible;
+}
+
+// 滚动条整体宽度
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+// 滚动条滑槽样式
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+// 滚动条样式
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #ddd;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #999;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+// 主题色
+.color-primary {
+  color: $base-color-default;
+}
+
+.el-form-item__label {
+  color: #8392AB;
+}
+
+.el-form--label-top .el-form-item__label {
+  padding: 0;
+}
+
+.el-form-item--small.el-form-item {
+  margin-bottom: 24px;
+}
+
+.el-form-item--small.el-form-item:last-child {
+  margin-bottom: 0px;
+}
+
+.el-input-group__append {
+  color: #172B4D;
+  background-color: #F6F9FC;
+}
+
+.upload-attach {
+  width: 100%;
+
+  .el-upload--text {
+    width: 100%;
+
+    .el-upload-dragger {
+      width: 100%;
+      height: 80px;
+
+    }
+
+    .el-icon-upload {
+      margin: 0 auto;
+
+    }
+
+    .el-upload__text {
+      line-height: 1;
+    }
+  }
+}
+
+.el-table th.el-table__cell {
+  background-color: #f6f9fc;
+  color: #8392AB;
+  font-weight: 500;
+}
+
+html,
+body {
+  min-width: 768px;
+
+}
+
+
+.lit-form-detail.el-form--label-top {
+  .el-form-item__label {
+    padding: 0 0 0px 0;
+  }
+
+  .el-form-item {
+    padding-left: 0px;
+  }
+}
+
+.lit-form-detail {
+
+  .el-form-item {
+    margin-bottom: 24px;
+  }
+
+  .el-tooltip.input-disable,
+  .el-input.is-disabled .el-input__inner {
+    font-size: 14px !important;
+    font-family: PingFangSC-Regular, PingFang SC !important;
+    font-weight: 400 !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: #172B4D !important;
+    cursor: default !important;
+    padding-left: 0 !important;
+  }
+
+  .el-form-item__label:before {
+    display: none;
+  }
+
+  .el-form-item__label {
+    color: #8392AB !important;
+    font-size: 14px;
+  }
+
+  .el-input.is-disabled .el-input-group__append {
+    border: 0;
+    background-color: #fff;
+  }
+
+  .el-input.is-disabled {
+    .el-input__icon {
+      display: none;
+    }
+
+  }
+
+  .el-date-editor.is-disabled {
+    padding-left: 0;
+    font-size: 14px !important;
+    font-family: PingFangSC-Regular, PingFang SC !important;
+    font-weight: 400 !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: #172B4D !important;
+    cursor: default !important;
+    width: auto;
+
+    .el-range-separator {
+      color: #172B4D !important;
+
+    }
+
+    .el-range-input {
+      background-color: transparent !important;
+      border-color: transparent !important;
+      color: #172B4D !important;
+      cursor: default !important;
+    }
+
+    .el-input__icon {
+      display: none;
+    }
+  }
+
+  .el-input__suffix {
+    display: none;
+  }
+
+  .el-textarea.is-disabled {
+    .el-textarea__inner {
+      padding-left: 0;
+      font-size: 14px !important;
+      font-family: PingFangSC-Regular, PingFang SC !important;
+      font-weight: 400 !important;
+      background-color: transparent !important;
+      border-color: transparent !important;
+      color: #172B4D !important;
+      cursor: default !important;
+    }
+  }
+}
+
+.el-table th.el-table__cell>.cell {
+  padding: 0 14px;
+}
+
+.grid-content {
+  padding: 24px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.el-table .cell {
+  font-size: 14px;
+}
+
+.table-cell-40 {
+  .el-table__cell {
+    height: 40px;
+  }
+}
+
+.table-cell-60 {
+  .el-table__cell {
+    height: 60px;
+  }
+}
+
+.el-drawer__header {
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+// table 隐藏全选
+.hidden-checkall-header {
+  .has-gutter {
+    .el-checkbox {
+      display: none;
+    }
+  }
+
+}
