@@ -34,7 +34,7 @@ export default {
 }
 
 .fixed-header + .app-main {
-  padding-top: 62px;
+  padding-top: 82px;
   padding-right: 24px;
   padding-left: 24px;
   height: calc(100vh - 24px);
