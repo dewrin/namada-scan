@@ -38,7 +38,8 @@ export default {
   align-items: center;
 
   padding: 0 20px;
-background: #fff;
+  background: #fff;
+
   .inp-box {
     display: flex;
     align-items: center;
@@ -53,8 +54,9 @@ background: #fff;
 
     .input-search {
       width: 80%;
-      &::v-deep{
-        .el-input__inner{
+
+      &::v-deep {
+        .el-input__inner {
           border: 0;
         }
       }
@@ -71,6 +73,7 @@ background: #fff;
     width: 90px;
     height: 32px;
     color: #ffff00;
+    cursor: pointer;
   }
 }
 </style>
