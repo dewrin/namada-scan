@@ -13,9 +13,9 @@ export default {
     }
   },
   render(h, context) {
-    const { icon, title } = context.props
+    const { title } = context.props
     const vnodes = []
-    vnodes.push(<svg-icon icon-class={icon}/>)
+    // vnodes.push(<svg-icon icon-class={icon}/>)
     if (title) {
       vnodes.push(<span slot='title'>{(title)}</span>)
     }

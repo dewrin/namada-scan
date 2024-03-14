@@ -19,6 +19,13 @@ export const constantRoutes = [
       path: '',
       meta: { title: 'home', icon: 'layout' },
       component: () => import('@/views/home/index')
+    },
+    {
+      path: '/tx/:id',
+      hidden: true,
+      meta: { title: 'block', icon: 'base' },
+      component: () => import('@/views/home/tx')
+
     }]
   },
 
@@ -28,40 +35,55 @@ export const constantRoutes = [
     meta: { title: 'validators', icon: 'base' },
     children: [{
       path: '',
+      hidden: true,
       meta: { title: 'validators', icon: 'layout' },
-      component: () => import('@/views/list-views/scroll-view')
+      component: () => import('@/views/validators/index')
+    }, {
+      path: '/validator/:id',
+      hidden: true,
+      meta: { title: 'validators', icon: 'layout' },
+      component: () => import('@/views/validators/detail')
     }]
   },
-  {
-    path: '/transactions',
-    component: Layout,
-    meta: { title: 'transactions', icon: 'base' },
-    children: [{
-      path: '',
-      meta: { title: 'transactions', icon: 'layout' },
-      component: () => import('@/views/home/index')
-    }]
-  },
+
+  // {
+  //   path: '/transactions',
+  //   component: Layout,
+  //   meta: { title: 'transactions', icon: 'base' },
+  //   children: [{
+  //     path: '',
+  //     meta: { title: 'transactions', icon: 'layout' },
+  //     component: () => import('@/views/home/index')
+  //   }]
+  // },
   {
     path: '/blocks',
     component: Layout,
     meta: { title: 'blocks', icon: 'base' },
     children: [{
       path: '',
+      hidden: true,
       meta: { title: 'blocks', icon: 'layout' },
-      component: () => import('@/views/home/index')
-    }]
-  },
-  {
-    path: '/governance',
-    component: Layout,
-    meta: { title: 'governance', icon: 'base' },
-    children: [{
-      path: '',
-      meta: { title: 'governance', icon: 'layout' },
-      component: () => import('@/views/home/index')
+      component: () => import('@/views/blocks/index')
+    }, {
+      path: '/block/:id',
+      hidden: true,
+      meta: { title: 'block', icon: 'base' },
+      component: () => import('@/views/blocks/detail')
+
     }]
   }
+
+  // {
+  //   path: '/governance',
+  //   component: Layout,
+  //   meta: { title: 'governance', icon: 'base' },
+  //   children: [{
+  //     path: '',
+  //     meta: { title: 'governance', icon: 'layout' },
+  //     component: () => import('@/views/home/index')
+  //   }]
+  // }
 
 ]
 store.commit('route/SET_ROUTES', constantRoutes)

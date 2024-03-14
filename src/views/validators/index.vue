@@ -10,70 +10,7 @@
     </div>
 
     <div class="big-card">
-      <div class="title">Overview</div>
-      <div class="content">
-        <el-row :gutter="24">
-          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-            <div class="card ">
-              <div class="sub-title"><span class="bg-yellow"> Epoch</span></div>
-              <div class="value-box">
-                <div class="value">--</div>
-                <div class="icon-1"></div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-            <div class="card ">
-              <div class="sub-title"><span class="bg-yellow"> Block Height</span></div>
-              <div class="value-box">
-                <div class="value">{{ lastInfo.header?.height }}</div>
-                <div class="icon-2"></div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-            <div class="card ">
-              <div class="sub-title"><span class="bg-yellow"> Validators</span></div>
-              <div class="value-box">
-                <div class="value">{{ validatorsList.length }}</div>
-                <div class="icon-3"></div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-            <div class="card ">
-              <div class="sub-title"><span class="bg-yellow"> Governance Proposals</span></div>
-              <div class="value-box">
-                <div class="value">--</div>
-                <div class="icon-4"></div>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row :gutter="24">
-          <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-            <div class="card ">
-              <div class="sub-title"><span class="bg-yellow"> Total Stake</span></div>
-              <div class="value-box">
-                <div class="value">{{ formatPrice(voting_power) }}</div>
-                <div class="icon-5"></div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-            <div class="card ">
-              <div class="sub-title"><span class="bg-yellow"> Chain ID</span></div>
-              <div class="value-box">
-                <div class="value">{{ lastInfo.header?.chain_id }}</div>
-                <div class="icon-6"></div>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-    </div>
-    <div class="big-card">
-      <div class="title">Top Validators <span class="more" @click="gotoVlist">View More >></span></div>
+      <div class="title">Validators </div>
       <div class="content">
         <div class="table-box">
 
@@ -88,7 +25,7 @@
               <th class="td"><span class="bg-yellow">State</span></th> -->
             </tr>
             <tbody class="tbody">
-              <tr v-for="item,i in validatorsList.slice(0, 10)" :key="i" class="tr">
+              <tr v-for="item,i in validatorsList" :key="i" class="tr">
                 <td class="td">{{ i+1 }}</td>
                 <td class="td">
                   <!-- <p>Home Decor Range</p> -->
@@ -128,6 +65,9 @@ export default {
     this.init()
   },
   methods: {
+    init() {
+      this.validators()
+    },
     search() {
       if (!this.keyword) {
         return
@@ -138,10 +78,6 @@ export default {
         this.$router.push('/block/' + this.keyword)
       }
     },
-    init() {
-      this.last()
-      this.validators()
-    },
     shortStr(text) {
       return text.slice(0, 8) + '...' + text.slice(-7);
     },
@@ -151,7 +87,7 @@ export default {
       })
     },
     gotoVlist() {
-      this.$router.push('/validators')
+      this.$route.push('/validators')
     },
     formatPrice(price) {
       return String(price).replace(/\B(?=(\d{3})+(?!\d))/g, ',');

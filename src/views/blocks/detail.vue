@@ -1,103 +1,40 @@
 <template>
-  <div class="home">
-    <div class="search-box">
-      <div class="inp-box">
-        <div class="icon-search"></div>
-        <el-input v-model="keyword" class="input-search" placeholder="Height/Transaction"></el-input>
-      </div>
-      <div class="btn-search" @click="search">Search</div>
-
-    </div>
-
+  <div>
     <div class="big-card">
-      <div class="title">Overview</div>
+      <div class="title">Block header #{{ txInfo.header?.height }}</div>
       <div class="content">
-        <el-row :gutter="24">
-          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-            <div class="card ">
-              <div class="sub-title"><span class="bg-yellow"> Epoch</span></div>
-              <div class="value-box">
-                <div class="value">--</div>
-                <div class="icon-1"></div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-            <div class="card ">
-              <div class="sub-title"><span class="bg-yellow"> Block Height</span></div>
-              <div class="value-box">
-                <div class="value">{{ lastInfo.header?.height }}</div>
-                <div class="icon-2"></div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-            <div class="card ">
-              <div class="sub-title"><span class="bg-yellow"> Validators</span></div>
-              <div class="value-box">
-                <div class="value">{{ validatorsList.length }}</div>
-                <div class="icon-3"></div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-            <div class="card ">
-              <div class="sub-title"><span class="bg-yellow"> Governance Proposals</span></div>
-              <div class="value-box">
-                <div class="value">--</div>
-                <div class="icon-4"></div>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row :gutter="24">
-          <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-            <div class="card ">
-              <div class="sub-title"><span class="bg-yellow"> Total Stake</span></div>
-              <div class="value-box">
-                <div class="value">{{ formatPrice(voting_power) }}</div>
-                <div class="icon-5"></div>
-              </div>
-            </div>
-          </el-col>
-          <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-            <div class="card ">
-              <div class="sub-title"><span class="bg-yellow"> Chain ID</span></div>
-              <div class="value-box">
-                <div class="value">{{ lastInfo.header?.chain_id }}</div>
-                <div class="icon-6"></div>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
+        <div class="value-box"> <div class="label">Time</div><div class="value">{{ txInfo.header?.time }}</div> </div>
+        <div class="value-box"> <div class="label">Height</div><div class="value">{{ txInfo.header?.height }}</div> </div>
+        <div class="value-box"> <div class="label">Number of transactions</div><div class="value">{{ txInfo.tx_hashes?.length }}</div> </div>
+        <div class="value-box"> <div class="label">Block hash</div><div class="value">{{ txInfo.header?.last_block_id?.hash }}</div> </div>
       </div>
     </div>
     <div class="big-card">
-      <div class="title">Top Validators <span class="more" @click="gotoVlist">View More >></span></div>
+      <div class="title">Transactions </div>
       <div class="content">
         <div class="table-box">
 
           <table class="table">
             <tr class="th">
-              <th class="td"><span class="bg-yellow">Rank</span></th>
-              <th class="td"><span class="bg-yellow">Validator</span></th>
-              <th class="td"><span class="bg-yellow">Voting Power</span></th>
+              <th class="td"><span class="bg-yellow">Tx Hash</span></th>
+              <th class="td"><span class="bg-yellow">Tx Type</span></th>
+              <!-- <th class="td"><span class="bg-yellow">Voting Power</span></th> -->
               <!-- <th class="td"><span class="bg-yellow">Uptime</span></th>
               <th class="td"><span class="bg-yellow">Signed Blocks</span></th>
               <th class="td"><span class="bg-yellow">Last Seen at</span></th>
               <th class="td"><span class="bg-yellow">State</span></th> -->
             </tr>
             <tbody class="tbody">
-              <tr v-for="item,i in validatorsList.slice(0, 10)" :key="i" class="tr">
-                <td class="td">{{ i+1 }}</td>
+              <tr v-for="item,i in txInfo.tx_hashes" :key="i" class="tr">
+                <td class="td">{{ shortStr(item.hash_id) }}</td>
                 <td class="td">
                   <!-- <p>Home Decor Range</p> -->
-                  <p class="address">{{ shortStr(item.address) }}</p>
+                  <p class="">{{ (item.tx_type) }}</p>
                 </td>
-                <td class="td">
+                <!-- <td class="td">
                   <p>{{ formatPrice(item.voting_power) }}</p>
                   <p>{{ ((item.voting_power/voting_power)*100).toFixed(2) }}%</p>
-                </td>
+                </td> -->
                 <!-- <td class="td">100 %</td>
                 <td class="td">111,130,123</td>
                 <td class="td">333,330,123</td>
@@ -108,65 +45,34 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
-import BigNumber from 'bignumber.js';
-import { last, validators } from '@/api/namada'
+import { block } from '@/api/namada'
+
 export default {
   data() {
     return {
-      keyword: '',
-      lastInfo: {},
-      validatorsList: [],
-      voting_power: 0
+      height: this.$route.params.id,
+      txInfo: {}
     }
   },
   mounted() {
-    this.init()
+    this.getBlock()
   },
   methods: {
-    search() {
-      if (!this.keyword) {
-        return
-      }
-      if (isNaN(this.keyword)) { // tx
-        this.$router.push('/tx/' + this.keyword)
-      } else { // height
-        this.$router.push('/block/' + this.keyword)
-      }
-    },
-    init() {
-      this.last()
-      this.validators()
-    },
     shortStr(text) {
       return text.slice(0, 8) + '...' + text.slice(-7);
     },
-    last() {
-      last().then(res => {
-        this.$set(this, 'lastInfo', res)
-      })
-    },
-    gotoVlist() {
-      this.$router.push('/validators')
-    },
-    formatPrice(price) {
-      return String(price).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    },
-    validators() {
-      validators().then(res => {
-        this.validatorsList = res.result.validators
-        this.voting_power = BigNumber(0)
-        res.result.validators.map(item => item.voting_power).forEach((item) => (this.voting_power = this.voting_power.plus(BigNumber(item))))
+    getBlock() {
+      block(this.height).then(res => {
+        this.$set(this, 'txInfo', res)
       })
     }
   }
 }
 </script>
-
 <style lang="scss" scoped>
 .big-card {
   background: #fff;
@@ -186,7 +92,22 @@ export default {
       cursor: pointer;
     }
   }
+.value-box{
+  padding-bottom: 20px;
+  display: flex;
+  margin: 10px 0;
+  align-items: center;
+  .label{
+    font-size: 18px;
+    font-weight: 500;
+    width: 220px;
+    margin-right: 10px;
+  }
+  .value{
+    font-size: 16px;
 
+  }
+}
   .card {
     border: 1px solid #000;
     border-radius: 4px;
