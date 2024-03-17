@@ -13,15 +13,7 @@
       <div class="title">Overview</div>
       <div class="content">
         <el-row :gutter="24">
-          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-            <div class="card ">
-              <div class="sub-title"><span class="bg-yellow"> Epoch</span></div>
-              <div class="value-box">
-                <div class="value">--</div>
-                <div class="icon-1"></div>
-              </div>
-            </div>
-          </el-col>
+
           <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
             <div class="card ">
               <div class="sub-title"><span class="bg-yellow"> Block Height</span></div>
@@ -35,23 +27,12 @@
             <div class="card ">
               <div class="sub-title"><span class="bg-yellow"> Validators</span></div>
               <div class="value-box">
-                <div class="value">{{ validatorsList.length }}</div>
+                <div class="value">{{ validatorsTotal }}</div>
                 <div class="icon-3"></div>
               </div>
             </div>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-            <div class="card ">
-              <div class="sub-title"><span class="bg-yellow"> Governance Proposals</span></div>
-              <div class="value-box">
-                <div class="value">--</div>
-                <div class="icon-4"></div>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row :gutter="24">
-          <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
             <div class="card ">
               <div class="sub-title"><span class="bg-yellow"> Total Stake</span></div>
               <div class="value-box">
@@ -60,7 +41,7 @@
               </div>
             </div>
           </el-col>
-          <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
+          <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
             <div class="card ">
               <div class="sub-title"><span class="bg-yellow"> Chain ID</span></div>
               <div class="value-box">
@@ -88,15 +69,15 @@
               <th class="td"><span class="bg-yellow">State</span></th> -->
             </tr>
             <tbody class="tbody">
-              <tr v-for="item,i in validatorsList.slice(0, 10)" :key="i" class="tr">
-                <td class="td">{{ i+1 }}</td>
+              <tr v-for="item, i in validatorsList.slice(0, 10)" :key="i" class="tr">
+                <td class="td">{{ i + 1 }}</td>
                 <td class="td">
                   <!-- <p>Home Decor Range</p> -->
-                  <p class="address">{{ shortStr(item.address) }}</p>
+                  <p class="">{{ shortStr(item.address) }}</p>
                 </td>
                 <td class="td">
                   <p>{{ formatPrice(item.voting_power) }}</p>
-                  <p>{{ ((item.voting_power/voting_power)*100).toFixed(2) }}%</p>
+                  <p>{{ ((item.voting_power / voting_power) * 100).toFixed(2) }}%</p>
                 </td>
                 <!-- <td class="td">100 %</td>
                 <td class="td">111,130,123</td>
@@ -121,6 +102,7 @@ export default {
       keyword: '',
       lastInfo: {},
       validatorsList: [],
+      validatorsTotal: 0,
       voting_power: 0
     }
   },
@@ -157,8 +139,11 @@ export default {
       return String(price).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     },
     validators() {
-      validators().then(res => {
+      validators({
+        count: 10
+      }).then(res => {
         this.validatorsList = res.result.validators
+        this.validatorsTotal = res.result.total
         this.voting_power = BigNumber(0)
         res.result.validators.map(item => item.voting_power).forEach((item) => (this.voting_power = this.voting_power.plus(BigNumber(item))))
       })
@@ -194,12 +179,63 @@ export default {
     padding: 20px;
     display: flex;
     flex-direction: column;
+    &:hover{
+      background: #000;
+      .sub-title  .bg-yellow {
+        background: #00FFFF;
+        padding: 2px 5px;
+      }
+      .value-box  .value{
+        color: #fff;
+      }
+      .icon-1 {
+        width: 45px;
+        height: 45px;
+        background: url(~@/assets/icon-1-1.svg) no-repeat !important;
+        background-size: 100% 100% !important;
+      }
 
+      .icon-2 {
+        width: 45px;
+        height: 45px;
+        background: url(~@/assets/icon-2-1.svg) no-repeat !important;
+        background-size: 100% 100% !important;
+      }
+
+      .icon-3 {
+        width: 45px;
+        height: 45px;
+        background: url(~@/assets/icon-3-1.svg) no-repeat !important;
+        background-size: 100% 100% !important;
+      }
+
+      .icon-4 {
+        width: 45px;
+        height: 45px;
+        background: url(~@/assets/icon-4-1.svg) no-repeat !important;
+        background-size: 100% 100% !important;
+      }
+
+      .icon-5 {
+        width: 45px;
+        height: 45px;
+        background: url(~@/assets/icon-5-1.svg) no-repeat !important;
+        background-size: 100% 100% !important;
+      }
+
+      .icon-6 {
+        width: 45px;
+        height: 45px;
+        background: url(~@/assets/icon-6-1.svg) no-repeat !important;
+        background-size: 100% 100% !important;
+      }
+    }
     .sub-title {
       font-size: 16px;
       margin-bottom: 20px;
 
       .bg-yellow {
+        padding: 2px 5px;
         background: #ffff00;
       }
     }
@@ -208,7 +244,11 @@ export default {
       display: flex;
       justify-content: space-between;
 
-      .value {}
+      .value {
+        word-wrap: break-word;
+        width: 100px;
+        flex: 1;
+      }
 
       .icon-1 {
         width: 45px;
@@ -264,6 +304,7 @@ export default {
     display: table;
     width: 100%;
     min-width: 800px;
+
     .th {
       height: 40px;
       text-align: left;
@@ -281,14 +322,17 @@ export default {
       border-bottom: 1px solid #000;
       padding-bottom: 10px;
       height: 80px;
+
       .td {
         display: table-cell;
         text-align: left;
         line-height: 30px;
-        .address{
+
+        .address {
           color: #00FFFF;
           // cursor: pointer;
         }
+
         p {
           line-height: 1.5;
         }
@@ -333,7 +377,7 @@ export default {
 
   .btn-search {
     background: #000;
-    border-radius: 10px;
+    border-radius: 4px;
     text-align: center;
     display: flex;
     align-items: center;

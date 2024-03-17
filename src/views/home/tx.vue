@@ -5,13 +5,13 @@
       <div class="content">
         <div class="value-box"> <div class="label">Block Id</div><div class="value">{{ txInfo.block_id }}</div> </div>
         <div class="value-box"> <div class="label">Code</div><div class="value">{{ txInfo.code }}</div> </div>
-        <div class="value-box"> <div class="label">Data</div><div class="value">{{ txInfo.data }}</div> </div>
         <div class="value-box"> <div class="label">Fee amount per gas unit</div><div class="value">{{ txInfo.fee_amount_per_gas_unit }}</div> </div>
         <div class="value-box"> <div class="label">Fee token</div><div class="value">{{ txInfo.fee_token }}</div> </div>
         <div class="value-box"> <div class="label">Gas limit multiplier</div><div class="value">{{ txInfo.gas_limit_multiplier }}</div> </div>
         <div class="value-box"> <div class="label">Hash</div><div class="value">{{ txInfo.hash }}</div> </div>
         <div class="value-box"> <div class="label">Tx type</div><div class="value">{{ txInfo.tx_type }}</div> </div>
         <div class="value-box"> <div class="label">Wrapper Id</div><div class="value">{{ txInfo.wrapper_id }}</div> </div>
+        <div class="value-box"> <div class="label">Data</div><div class="value">{{ txInfo.data }}</div> </div>
       </div>
     </div>
 
@@ -77,7 +77,8 @@ export default {
   }
   .value{
     font-size: 16px;
-
+    word-break: break-all;
+    width: 400px;
   }
 }
   .card {
@@ -226,7 +227,7 @@ export default {
 
   .btn-search {
     background: #000;
-    border-radius: 10px;
+    border-radius: 4px;
     text-align: center;
     display: flex;
     align-items: center;

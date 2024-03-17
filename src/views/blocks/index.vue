@@ -26,7 +26,7 @@
             </tr>
             <tbody class="tbody">
               <tr v-for="item,i in validatorsList" :key="i" class="tr">
-                <td class="td">{{ item.height }}</td>
+                <td class="td"><span class="address" @click="gotoBlock(item.height)">{{ item.height }}</span></td>
                 <td class="td">
                   <!-- <p>Home Decor Range</p> -->
                   {{ item.txs }}
@@ -77,6 +77,9 @@ export default {
           await this.getBlock(index)
         }
       })
+    },
+    gotoBlock(height) {
+      this.$router.push('/block/' + height)
     },
     search() {
       if (!this.keyword) {
@@ -271,7 +274,7 @@ export default {
 
   .btn-search {
     background: #000;
-    border-radius: 10px;
+    border-radius: 4px;
     text-align: center;
     display: flex;
     align-items: center;

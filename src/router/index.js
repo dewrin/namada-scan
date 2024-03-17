@@ -17,7 +17,7 @@ export const constantRoutes = [
     meta: { title: 'home', icon: 'base' },
     children: [{
       path: '',
-      meta: { title: 'home', icon: 'layout' },
+      meta: { title: 'Home', icon: 'layout' },
       component: () => import('@/views/home/index')
     },
     {
@@ -32,7 +32,7 @@ export const constantRoutes = [
   {
     path: '/validators',
     component: Layout,
-    meta: { title: 'validators', icon: 'base' },
+    meta: { title: 'Validators', icon: 'base' },
     children: [{
       path: '',
       hidden: true,
@@ -63,7 +63,7 @@ export const constantRoutes = [
     children: [{
       path: '',
       hidden: true,
-      meta: { title: 'blocks', icon: 'layout' },
+      meta: { title: 'Blocks', icon: 'layout' },
       component: () => import('@/views/blocks/index')
     }, {
       path: '/block/:id',

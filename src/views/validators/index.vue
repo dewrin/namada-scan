@@ -8,6 +8,19 @@
       <div class="btn-search" @click="search">Search</div>
 
     </div>
+    <div class="page-box">
+      <div class="total">Showing {{ (currentPage-1)*pageSize+1 }} - {{ showCount }} out of {{ total }}</div>
+      <el-pagination
+        :current-page="currentPage"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="pageSize"
+        layout="sizes, prev, pager, next"
+        :total="total"
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange">
+      </el-pagination>
+    </div>
 
     <div class="big-card">
       <div class="title">Validators </div>
@@ -26,10 +39,10 @@
             </tr>
             <tbody class="tbody">
               <tr v-for="item,i in validatorsList" :key="i" class="tr">
-                <td class="td">{{ i+1 }}</td>
+                <td class="td">{{ (currentPage-1)*pageSize +i+1 }}</td>
                 <td class="td">
                   <!-- <p>Home Decor Range</p> -->
-                  <p class="address">{{ shortStr(item.address) }}</p>
+                  <p class="">{{ shortStr(item.address) }}</p>
                 </td>
                 <td class="td">
                   <p>{{ formatPrice(item.voting_power) }}</p>
@@ -58,7 +71,16 @@ export default {
       keyword: '',
       lastInfo: {},
       validatorsList: [],
-      voting_power: 0
+      voting_power: 0,
+      currentPage: 1,
+      pageSize: 10,
+      total: 0
+
+    }
+  },
+  computed: {
+    showCount() {
+      return (this.currentPage) * this.pageSize <= this.total ? (this.currentPage) * this.pageSize : this.total
     }
   },
   mounted() {
@@ -78,6 +100,14 @@ export default {
         this.$router.push('/block/' + this.keyword)
       }
     },
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.validators()
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val
+      this.validators()
+    },
     shortStr(text) {
       return text.slice(0, 8) + '...' + text.slice(-7);
     },
@@ -93,8 +123,12 @@ export default {
       return String(price).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     },
     validators() {
-      validators().then(res => {
+      validators({
+        pageSize: this.pageSize,
+        currentPage: this.currentPage
+      }).then(res => {
         this.validatorsList = res.result.validators
+        this.total = Number(res.result.total)
         this.voting_power = BigNumber(0)
         res.result.validators.map(item => item.voting_power).forEach((item) => (this.voting_power = this.voting_power.plus(BigNumber(item))))
       })
@@ -104,6 +138,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page-box{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  .total{
+    color: #C4C4C4;
+    font-size: 16px;
+  }
+}
 .big-card {
   background: #fff;
   margin: 20px 0;
@@ -269,7 +313,7 @@ export default {
 
   .btn-search {
     background: #000;
-    border-radius: 10px;
+    border-radius: 4px;
     text-align: center;
     display: flex;
     align-items: center;

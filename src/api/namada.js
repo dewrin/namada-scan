@@ -2,10 +2,11 @@
 import request from '@/utils/request'
 const rpcUrl = 'https://namada-rpc.equinoxdao.xyz/'
 const apiUrl = 'https://namada-indexer.equinoxdao.xyz/'
-export function validators() {
+export function validators(params) {
   return request({
     url: rpcUrl + 'validators',
-    method: 'get'
+    method: 'get',
+    params
   })
 }
 export function last() {

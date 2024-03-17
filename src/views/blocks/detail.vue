@@ -26,7 +26,7 @@
             </tr>
             <tbody class="tbody">
               <tr v-for="item,i in txInfo.tx_hashes" :key="i" class="tr">
-                <td class="td">{{ shortStr(item.hash_id) }}</td>
+                <td class="td"><span class="address" @click="gotoTx(item.hash_id)">{{ shortStr(item.hash_id) }}</span> </td>
                 <td class="td">
                   <!-- <p>Home Decor Range</p> -->
                   <p class="">{{ (item.tx_type) }}</p>
@@ -69,6 +69,9 @@ export default {
       block(this.height).then(res => {
         this.$set(this, 'txInfo', res)
       })
+    },
+    gotoTx(tx) {
+      this.$router.push('/tx/' + tx)
     }
   }
 }
@@ -105,7 +108,8 @@ export default {
   }
   .value{
     font-size: 16px;
-
+    word-break: break-all;
+    max-width: 400px;
   }
 }
   .card {
@@ -208,7 +212,7 @@ export default {
         line-height: 30px;
         .address{
           color: #00FFFF;
-          // cursor: pointer;
+          cursor: pointer;
         }
         p {
           line-height: 1.5;
@@ -254,7 +258,7 @@ export default {
 
   .btn-search {
     background: #000;
-    border-radius: 10px;
+    border-radius: 4px;
     text-align: center;
     display: flex;
     align-items: center;
