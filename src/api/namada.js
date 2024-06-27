@@ -1,7 +1,7 @@
 // login, logout, getInfo
 import request from '@/utils/request'
-const rpcUrl = 'https://namada-rpc.equinoxdao.xyz/'
-const apiUrl = 'https://namada-indexer.equinoxdao.xyz/'
+const rpcUrl = 'https://rpc.luminara.icu/'
+const apiUrl = 'https://indexer.luminara.icu/'
 export function validators(params) {
   return request({
     url: rpcUrl + 'validators',
